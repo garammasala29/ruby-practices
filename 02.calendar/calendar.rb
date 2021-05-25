@@ -1,26 +1,30 @@
+# frozen_string_literal: true
+
 require 'date'
 require 'optparse'
+require 'paint'
 
 options = ARGV.getopts('y:', 'm:')
-year = options["y"].to_i
-mon  = options["m"].to_i
+today = Date.today
+year = options['y']&.to_i || today.year
+month  = options['m']&.to_i || today.month
 
-year = Date.today.year if year == 0
-mon = Date.today.mon if mon == 0
+first_day_wday = Date.new(year, month, 1).wday
+last_day = Date.new(year, month, -1)
+wdays = %w[日 月 火 水 木 金 土]
 
-first_day_wday = Date.new(year, mon, 1).wday
-last_day = Date.new(year, mon, -1)
-wdays = ["日", "月", "火", "水", "木", "金", "土"]
-
-title = "#{mon}月  #{year}"
+title = "#{month}月  #{year}"
 puts title.to_s.center(20)
-puts wdays.join(" ")
-print "   " * first_day_wday
+puts wdays.join(' ')
+print '   ' * first_day_wday
 
 (1..last_day.day).each do |day|
-  print day.to_s.rjust(2) + " "
-  day_wday = Date.new(year, mon, day)
-  print "\n" if day_wday.wday == 6
+  date = Date.new(year, month, day)
+  if date == today
+    print "#{Paint[day.to_s.rjust(2), :inverse]} "
+  else
+    print "#{day.to_s.rjust(2)} "
+  end
+  print "\n" if date.saturday?
 end
 puts "\n"
-
