@@ -50,7 +50,7 @@ if params['l']
     bytes = file.size
     time = file.mtime.strftime('%_m %d %R')
     blocks = file.blocks
-    puts "#{file_mode} #{link.to_s.rjust(2)} #{owner}  #{group} #{bytes.to_s.rjust(5)} #{time} #{list}"
+    puts "#{file_mode} #{link.to_s.rjust(2)} #{owner}  #{group} #{bytes.to_s.rjust(4)} #{time} #{list}"
   end
 else
   column = lists.size / COLUMN_NUMBER
