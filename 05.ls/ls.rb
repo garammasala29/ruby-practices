@@ -27,8 +27,6 @@ def permission(mode)
   }[mode]
 end
 
-COLUMN_NUMBER = 3
-
 # ls -a
 lists = params['a'] ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sort
 
@@ -36,7 +34,6 @@ lists = params['a'] ? Dir.glob('*', File::FNM_DOTMATCH).sort : Dir.glob('*').sor
 lists.reverse! if params['r']
 
 # ls -l
-
 if params['l']
   total = lists.sum { |list| File.stat(list).blocks }
   puts "total #{total}"
@@ -50,16 +47,19 @@ if params['l']
     bytes = file.size
     time = file.mtime.strftime('%_m %d %R')
     blocks = file.blocks
-    puts "#{file_mode} #{link.to_s.rjust(2)} #{owner}  #{group} #{bytes.to_s.rjust(4)} #{time} #{list}"
+    puts "#{file_mode} #{link.to_s.rjust(2)} #{owner}  #{group}  #{bytes.to_s.rjust(4)} #{time} #{list}"
   end
 else
+  COLUMN_NUMBER = 3
+  longest_listname = lists.max_by(&:length).size
   column = lists.size / COLUMN_NUMBER
   column += 1 unless (lists.size % COLUMN_NUMBER).zero?
   lists << nil until (lists.size % column).zero?
   divide_lists = lists.each_slice(column).to_a.transpose
   divide_lists.each do |divide_list|
     divide_list.each do |list|
-      print list.to_s.ljust(24)
+      # 6はpath同士の間の空白の数。適当に決め打ち
+      print list.to_s.ljust(longest_listname + 6)
     end
     print "\n"
   end
