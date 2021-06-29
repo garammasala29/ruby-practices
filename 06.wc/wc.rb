@@ -26,9 +26,7 @@ if ARGV.empty?
     output(lines, words, bytes)
   end
   puts
-end
-
-if ARGV.size >= 1
+else
   total_lines = 0
   total_words = 0
   total_bytes = 0
@@ -45,9 +43,11 @@ if ARGV.size >= 1
       puts " #{file_name}"
     end
   end
-  if options['l'] && ARGV.size > 1
-    puts "#{total_lines.to_s.rjust(8)} total"
-  elsif ARGV.size > 1
-    puts "#{total_lines.to_s.rjust(8)}#{total_words.to_s.rjust(8)}#{total_bytes.to_s.rjust(8)} total"
+  if ARGV.size > 1
+    if options['l']
+      puts "#{total_lines.to_s.rjust(8)} total"
+    else
+      puts "#{total_lines.to_s.rjust(8)}#{total_words.to_s.rjust(8)}#{total_bytes.to_s.rjust(8)} total"
+    end
   end
 end
