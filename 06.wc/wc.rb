@@ -27,27 +27,26 @@ if ARGV.empty?
   end
   puts
 else
-  total_lines = 0
-  total_words = 0
-  total_bytes = 0
-  ARGV.each do |file_name|
-    file = File.open(file_name).read
-    lines, words, bytes = calc(file)
-    total_lines += lines
-    total_words += words
-    total_bytes += bytes
-    if options['l']
-      puts "#{lines.to_s.rjust(8)} #{file_name}"
-    else
-      output(lines, words, bytes)
-      puts " #{file_name}"
+  total =
+    ARGV.inject({ lines: 0, words: 0, bytes: 0 }) do |result, file_name|
+      file = File.open(file_name).read
+      lines, words, bytes = calc(file)
+      if options['l']
+        puts "#{lines.to_s.rjust(8)} #{file_name}"
+      else
+        output(lines, words, bytes)
+        puts " #{file_name}"
+      end
+      result[:lines] += lines
+      result[:words] += words
+      result[:bytes] += bytes
+      result
     end
-  end
   if ARGV.size > 1
     if options['l']
-      puts "#{total_lines.to_s.rjust(8)} total"
+      puts "#{total[:lines].to_s.rjust(8)} total"
     else
-      puts "#{total_lines.to_s.rjust(8)}#{total_words.to_s.rjust(8)}#{total_bytes.to_s.rjust(8)} total"
+      puts "#{total[:lines].to_s.rjust(8)}#{total[:words].to_s.rjust(8)}#{total[:bytes].to_s.rjust(8)} total"
     end
   end
 end
