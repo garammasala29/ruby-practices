@@ -6,11 +6,11 @@ require_relative './frame'
 class Game
   def initialize(input_scores)
     @input_scores = input_scores
-    @shots = score_to_shots
+    @shots = scores_to_shots
     @frames = shots_to_frames
   end
 
-  def score_to_shots
+  def scores_to_shots
     scores = @input_scores.split(',')
     scores.map do |score|
       Shot.new(score).shot_score
