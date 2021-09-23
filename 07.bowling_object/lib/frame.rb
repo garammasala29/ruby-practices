@@ -1,25 +1,27 @@
 # frozen_string_literal: true
 
-require_relative './shot'
-
 class Frame
-  attr_reader :first_shot, :second_shot, :third_shot
+  attr_reader :first_score, :second_score, :third_score
 
-  def initialize(*shots)
-    @first_shot = Shot.new(shots[0])
-    @second_shot = Shot.new(shots[1])
-    @third_shot = Shot.new(shots[2])
+  def initialize(*scores)
+    @scores = scores
+    @first_score = scores[0]
+    @second_score = scores[1]
+    @third_score = scores[2]
   end
 
-  def frames_score
-    [@first_shot.shot_score, @second_shot.shot_score, @third_shot.shot_score].sum
+  def score
+    scores = @scores.map do |score|
+      score == 'X' ? 10 : score.to_i
+    end
+    scores.sum
   end
 
   def strike?
-    @first_shot.shot_score == 10
+    @first_score == 'X'
   end
 
   def spare?
-    !strike? && [@first_shot.shot_score, @second_shot.shot_score].sum == 10
+    !strike? && @first_score + @second_score == 10
   end
 end
