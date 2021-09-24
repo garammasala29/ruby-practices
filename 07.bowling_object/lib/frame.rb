@@ -11,14 +11,11 @@ class Frame
   end
 
   def score
-    scores = @scores.map do |score|
-      score == 'X' ? 10 : score.to_i
-    end
-    scores.sum
+    @scores.sum
   end
 
   def strike?
-    @first_score == 'X'
+    @first_score == 10 && @third_score.nil?
   end
 
   def spare?

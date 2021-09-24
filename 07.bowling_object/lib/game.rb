@@ -1,53 +1,53 @@
 # frozen_string_literal: true
 
-require_relative './shot'
-require_relative './frame'
+require_relative 'frame'
 
 class Game
   def initialize(input_scores)
     @input_scores = input_scores
-    @shots = scores_to_shots
-    @frames = shots_to_frames
-  end
-
-  def scores_to_shots
-    scores = @input_scores.split(',')
-    scores.map do |score|
-      Shot.new(score).shot_score
-    end
-  end
-
-  def shots_to_frames
-    frames = @shots.first(9).map do
-      @shots[0] == 10 ? @shots.shift(1) : @shots.shift(2)
-    end
-    frames << @shots
   end
 
   def calc_score
+    frames = scores_to_frames
     score = 0
-    @frames.each_with_index do |frame, index|
-      @frame = Frame.new(*frame)
-
-      next_frame = @frames[index + 1]
-      @next_frame = Frame.new(*next_frame)
-
-      after_next_frame = @frames[index + 2]
-      @after_next_frame = Frame.new(*after_next_frame)
-
-      score += @frame.frames_score + add_bonus
-      score + @frames.last.sum if index == 8
+    9.times do |number|
+      score += frames[number].score + add_bonus(frames, number)
     end
-    score
+    score + frames.last.score
   end
 
-  def add_bonus
-    if @frame.strike? && @next_frame.strike?
-      [@next_frame.first_shot.shot_score, @next_frame.second_shot.shot_score].sum + @after_next_frame.first_shot.shot_score
-    elsif @frame.strike?
-      [@next_frame.first_shot.shot_score, @next_frame.second_shot.shot_score].sum
-    elsif @frame.spare?
-      @next_frame.first_shot.shot_score
+  private
+
+  def scores_to_frames
+    scores = parse_scores
+    frames = []
+    9.times do
+      frames << if scores[0] == 10
+                  Frame.new(*scores.shift(1))
+                else
+                  Frame.new(*scores.shift(2))
+                end
+    end
+    frames << Frame.new(*scores)
+    frames
+  end
+
+  def parse_scores
+    scores = @input_scores.split(',')
+    scores.map { |score| score == 'X' ? 10 : score.to_i }
+  end
+
+  def add_bonus(frames, number)
+    if frames[number].strike? && frames[number + 1].strike?
+      frames[number + 1].score + frames[number + 2].first_score
+    elsif frames[number].strike?
+      if number == 8
+        frames[number + 1].first_score + frames[number + 1].second_score
+      else
+        frames[number + 1].score
+      end
+    elsif frames[number].spare?
+      frames[number + 1].first_score
     else
       0
     end
