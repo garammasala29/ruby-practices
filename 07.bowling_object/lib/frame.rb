@@ -1,13 +1,20 @@
 # frozen_string_literal: true
 
 class Frame
-  attr_reader :first_score, :second_score, :third_score
-
   def initialize(*scores)
     @scores = scores
-    @first_score = scores[0]
-    @second_score = scores[1]
-    @third_score = scores[2]
+  end
+
+  def first_score
+    @scores[0]
+  end
+
+  def second_score
+    @scores[1]
+  end
+
+  def third_score
+    @scores[2]
   end
 
   def score
@@ -15,10 +22,10 @@ class Frame
   end
 
   def strike?
-    @first_score == 10 && @third_score.nil?
+    first_score == 10 && third_score.nil?
   end
 
   def spare?
-    !strike? && @first_score + @second_score == 10
+    !strike? && first_score + second_score == 10
   end
 end
