@@ -10,8 +10,8 @@ class Game
   def calc_score
     frames = scores_to_frames
     score = 0
-    9.times do |number|
-      score += frames[number].score + add_bonus(frames, number)
+    9.times do |nth|
+      score += frames[nth].score + add_bonus(frames, nth)
     end
     score + frames.last.score
   end
@@ -37,17 +37,17 @@ class Game
     scores.map { |score| score == 'X' ? 10 : score.to_i }
   end
 
-  def add_bonus(frames, number)
-    if frames[number].strike? && frames[number + 1].strike?
-      frames[number + 1].score + frames[number + 2].first_score
-    elsif frames[number].strike?
-      if number == 8
-        frames[number + 1].first_score + frames[number + 1].second_score
+  def add_bonus(frames, nth)
+    if frames[nth].strike? && frames[nth + 1].strike?
+      frames[nth + 1].score + frames[nth + 2].first_score
+    elsif frames[nth].strike?
+      if nth == 8
+        frames[nth + 1].first_score + frames[nth + 1].second_score
       else
-        frames[number + 1].score
+        frames[nth + 1].score
       end
-    elsif frames[number].spare?
-      frames[number + 1].first_score
+    elsif frames[nth].spare?
+      frames[nth + 1].first_score
     else
       0
     end
