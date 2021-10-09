@@ -13,7 +13,7 @@ MODE_TABLE = {
   '7' => 'rwx'
 }.freeze
 
-class FileData
+class FileStat
   def initialize(path)
     @path = path
   end

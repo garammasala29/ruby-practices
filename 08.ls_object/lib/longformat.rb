@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
 require 'etc'
-require_relative 'filedata'
+require_relative 'filestat'
 
 class LongFormat
   def initialize(paths)
-    @paths = paths.map { |path| FileData.new(path) }
+    @paths = paths.map { |path| FileStat.new(path) }
   end
 
   def output
