@@ -2,17 +2,6 @@
 
 require 'etc'
 
-MODE_TABLE = {
-  '0' => '---',
-  '1' => '-x-',
-  '2' => '-w-',
-  '3' => '-wx',
-  '4' => 'r--',
-  '5' => 'r-x',
-  '6' => 'rw-',
-  '7' => 'rwx'
-}.freeze
-
 class FileStat
   def initialize(path)
     @path = path
@@ -33,6 +22,17 @@ class FileStat
   end
 
   private
+
+  MODE_TABLE = {
+    '0' => '---',
+    '1' => '-x-',
+    '2' => '-w-',
+    '3' => '-wx',
+    '4' => 'r--',
+    '5' => 'r-x',
+    '6' => 'rw-',
+    '7' => 'rwx'
+  }.freeze
 
   def format_type_and_mode(file_stat)
     type = file_stat.directory? ? 'd' : '-'
