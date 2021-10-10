@@ -5,27 +5,25 @@ require_relative 'filestat'
 
 class LongFormat
   def initialize(paths)
-    @paths = paths.map { |path| FileStat.new(path) }
+    @file_stats = paths.map { |path| FileStat.new(path).build_stat }
   end
 
   def output
-    path_stats = @paths.map(&:build_stat)
-    block_total = path_stats.sum { |stat| stat[:blocks] }
+    block_total = @file_stats.sum { |stat| stat[:blocks] }
     puts "total #{block_total}"
-    max_size_map = build_max_size_map(path_stats)
-    path_stats.each do |stat|
+    @file_stats.each do |stat|
       puts long_format(stat, max_size_map)
     end
   end
 
   private
 
-  def build_max_size_map(path_stats)
+  def max_size_map
     {
-      nlink: path_stats.map { |stat| stat[:nlink].to_s.size }.max,
-      user: path_stats.map { |stat| stat[:user].size }.max,
-      group: path_stats.map { |stat| stat[:group].size }.max,
-      bytesize: path_stats.map { |stat| stat[:bytesize].to_s.size }.max
+      nlink: @file_stats.map { |stat| stat[:nlink].to_s.size }.max,
+      user: @file_stats.map { |stat| stat[:user].size }.max,
+      group: @file_stats.map { |stat| stat[:group].size }.max,
+      bytesize: @file_stats.map { |stat| stat[:bytesize].to_s.size }.max
     }
   end
 
