@@ -6,12 +6,12 @@ require 'debug'
 
 class WcTest < Minitest::Test
   def test_1
-    text = <<-TEXT
-total 16
--rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
--rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
+    text = <<~TEXT
+      total 16
+      -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
+      -rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
     TEXT
     expected = <<-TEXT.chomp
        5      38     237
@@ -21,12 +21,12 @@ drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
   end
 
   def test_2
-    text = <<-TEXT
-total 16
--rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
--rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
+    text = <<~TEXT
+      total 16
+      -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
+      -rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
     TEXT
     expected = <<-TEXT.chomp
        5
@@ -72,12 +72,12 @@ drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
   end
 
   def test_7
-    text = <<-TEXT
-total 16
--rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
--rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
-drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
+    text = <<~TEXT
+      total 16
+      -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 02:03 lib
+      -rw-r--r--  1 m.kawamura  staff  820 11  7 11:56 package.json
+      drwxr-xr-x  3 m.kawamura  staff   96 11  5 01:37 test
     TEXT
     expected = <<-TEXT.chomp
       11      30     284 README.md

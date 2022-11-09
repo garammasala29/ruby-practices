@@ -1,11 +1,13 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
+
 require_relative '../lib/wc'
 require 'optparse'
 require 'debug'
 
 line_only = false
 opt = OptionParser.new
-opt.on('-l') {|v| line_only = v }
+opt.on('-l') { |v| line_only = v }
 opt.parse!(ARGV)
 
 file_names = ARGV
