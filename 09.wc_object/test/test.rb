@@ -5,7 +5,7 @@ require 'minitest/autorun'
 require 'debug'
 
 class WcTest < Minitest::Test
-  def test_1
+  def ls_stdin
     text = <<~TEXT
       total 16
       -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
@@ -20,7 +20,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_2
+  def ls_with_l_stdin
     text = <<~TEXT
       total 16
       -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md
@@ -35,7 +35,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_3
+  def one_args
     expected = <<-TEXT.chomp
       11      30     284 README.md
     TEXT
@@ -43,7 +43,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_4
+  def one_args_with_l
     expected = <<-TEXT.chomp
       11 README.md
     TEXT
@@ -51,7 +51,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_5
+  def two_args
     expected = <<-TEXT.chomp
       11      30     284 README.md
       36      71     820 package.json
@@ -61,7 +61,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_6
+  def two_args_with_l
     expected = <<-TEXT.chomp
       11 README.md
       36 package.json
@@ -71,7 +71,7 @@ class WcTest < Minitest::Test
     assert_equal expected, actual
   end
 
-  def test_7
+  def ls_stdin_and_one_args
     text = <<~TEXT
       total 16
       -rw-r--r--  1 m.kawamura  staff  284 11  7 10:10 README.md

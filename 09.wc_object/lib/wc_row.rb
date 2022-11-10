@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # 1行当たりの必要なデータ
 class WcRow
   attr_reader :file_name
