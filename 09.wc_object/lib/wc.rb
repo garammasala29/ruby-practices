@@ -12,15 +12,14 @@ class Wc
 
   def run(text: '', file_names: [], line_only: false) 
     wc_rows = to_wc_rows(text, file_names)
-    lines = []
     line_count_sum = 0
     word_count_sum = 0
     byte_count_sum = 0
-    wc_rows.each do |wc_row, file_name|
+    lines = wc_rows.map do |wc_row|
       line_count_sum += wc_row.line_count
       word_count_sum += wc_row.word_count
       byte_count_sum += wc_row.byte_count
-      lines << format_row(wc_row.line_count, wc_row.word_count, wc_row.byte_count, wc_row.file_name, line_only: line_only)
+      format_row(wc_row.line_count, wc_row.word_count, wc_row.byte_count, wc_row.file_name, line_only: line_only)
     end
     if wc_rows.size > 1
       lines << format_row(line_count_sum, word_count_sum, byte_count_sum, 'total', line_only: line_only)
