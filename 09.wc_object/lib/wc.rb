@@ -5,17 +5,13 @@ require 'pathname'
 require 'debug'
 
 class Wc
+  # 外から呼ぶ時と中から呼ぶ時を分け、privateメソッドを作成できるように
   def self.run(text: '', file_names: [], line_only: false)
-    wc_rows = []
-    if file_names.empty?
-      wc_rows << WcRow.new(text)
-    else
-      file_names.each do |file_name|
-        pathname = Pathname(file_name)
-        text = pathname.read
-        wc_rows << WcRow.new(text, file_name)
-      end
-    end
+    self.new.run(text: text, file_names: file_names, line_only: line_only)
+  end
+
+  def run(text: '', file_names: [], line_only: false) 
+    wc_rows = to_wc_rows(text, file_names)
     lines = []
     line_count_sum = 0
     word_count_sum = 0
@@ -40,5 +36,19 @@ class Wc
       lines << line
     end
     lines.join("\n")
+  end
+
+  private
+
+  def to_wc_rows(text, file_names)
+    if file_names.empty?
+      [WcRow.new(text)]
+    else
+      file_names.map do |file_name|
+        pathname = Pathname(file_name)
+        text = pathname.read
+        WcRow.new(text, file_name)
+      end
+    end
   end
 end
