@@ -43,10 +43,15 @@ class Wc
   end
 
   def format_row(line_count, word_count, byte_count, file_name, line_only: false)
-    if line_only
-      "#{line_count.to_s.rjust(8)} #{file_name}".rstrip
-    else
-      "#{line_count.to_s.rjust(8)}#{word_count.to_s.rjust(8)}#{byte_count.to_s.rjust(8)} #{file_name}".rstrip
+    numbers = [format_number(line_count)]
+    unless line_only
+      numbers << format_number(word_count)
+      numbers << format_number(byte_count)
     end
+    "#{numbers.join} #{file_name}".rstrip
+  end
+
+  def format_number(number)
+    number.to_s.rjust(8)
   end
 end
