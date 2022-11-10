@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require_relative '../lib/wc'
+require 'optparse'
+require 'debug'
+
+line_only = false
+opt = OptionParser.new
+opt.on('-l') { |v| line_only = v }
+opt.parse!(ARGV)
+
+file_names = ARGV
+text = file_names.empty? ? gets('') : ''
+
+puts Wc.run(text: text, file_names: file_names, line_only: line_only)
