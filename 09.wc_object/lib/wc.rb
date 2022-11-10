@@ -20,20 +20,10 @@ class Wc
       line_count_sum += wc_row.line_count
       word_count_sum += wc_row.word_count
       byte_count_sum += wc_row.byte_count
-      line = if line_only
-               "#{wc_row.line_count.to_s.rjust(8)} #{wc_row.file_name}".rstrip
-             else
-               "#{wc_row.line_count.to_s.rjust(8)}#{wc_row.word_count.to_s.rjust(8)}#{wc_row.byte_count.to_s.rjust(8)} #{wc_row.file_name}".rstrip
-             end
-      lines << line
+      lines << format_row(wc_row.line_count, wc_row.word_count, wc_row.byte_count, wc_row.file_name, line_only: line_only)
     end
     if wc_rows.size > 1
-      line = if line_only
-               "#{line_count_sum.to_s.rjust(8)} total"
-             else
-               "#{line_count_sum.to_s.rjust(8)}#{word_count_sum.to_s.rjust(8)}#{byte_count_sum.to_s.rjust(8)} total"
-             end
-      lines << line
+      lines << format_row(line_count_sum, word_count_sum, byte_count_sum, 'total', line_only: line_only)
     end
     lines.join("\n")
   end
@@ -49,6 +39,14 @@ class Wc
         text = pathname.read
         WcRow.new(text, file_name)
       end
+    end
+  end
+
+  def format_row(line_count, word_count, byte_count, file_name, line_only: false)
+    if line_only
+      "#{line_count.to_s.rjust(8)} #{file_name}".rstrip
+    else
+      "#{line_count.to_s.rjust(8)}#{word_count.to_s.rjust(8)}#{byte_count.to_s.rjust(8)} #{file_name}".rstrip
     end
   end
 end
